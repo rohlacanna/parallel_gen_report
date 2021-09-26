@@ -1,18 +1,14 @@
 defmodule GenReport do
-  @moduledoc """
-  Documentation for `GenReport`.
-  """
+  def build(filename) do
+    "reports/#{filename}"
+    |> File.stream!()
+    |> Enum.map(fn line -> parse_line(line) end)
+  end
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> GenReport.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  defp parse_line(line) do
+    line
+    |> String.trim()
+    |> String.split(",")
+    |> List.update_at(1, &String.to_integer/1)
   end
 end
